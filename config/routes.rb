@@ -1,6 +1,13 @@
 Rails.application.routes.draw do
-  resources :employees
-  resources :job_positions
-  resources :departments
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  devise_for :users
+  
+  # Redirigir a la página de inicio de sesión de Devise
+  authenticated :user do
+    root to: "home#index", as: :authenticated_root
+  end
+
+  # Si no está autenticado, redirigir al inicio de sesión
+  unauthenticated do
+    root to: 'devise/sessions#new', as: :unauthenticated_root
+  end
 end
